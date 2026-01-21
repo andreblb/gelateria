@@ -1,4 +1,5 @@
-<%= form_with(model: pedido, data: { controller: "pedido-calc" }) do |f| %>
+<%# 1. Trocamos 'pedido' por '@pedido' e removemos o data-controller do JS %>
+<%= form_with(model: @pedido, id: "pedido-form") do |f| %>
   <h2 style="color: var(--roxo-acai);">📝 Novo Pedido de Açaí</h2>
   
   <div style="margin-bottom: 20px;">
@@ -16,23 +17,30 @@
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
       <% Product.all.each do |product| %>
         <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; background: white; padding: 10px; border-radius: 5px;">
-          <%= check_box_tag "pedido[pedido_items_attributes][][product_id]", product.id, false, 
-              data: { price: product.price, action: "change->pedido-calc#recalculate" }, class: "sabor-check" %>
+          <%# 2. Mantemos os itens marcados após o clique em calcular %>
+          <%= check_box_tag "pedido[pedido_items_attributes][][product_id]", product.id, @pedido.product_ids.include?(product.id), class: "sabor-check" %>
           <span><%= product.name %> - <strong><%= number_to_currency(product.price) %></strong></span>
         </label>
       <% end %>
     </div>
+
+    <%# 3. Botão para o Ruby calcular sem salvar o pedido ainda %>
+    <%= f.submit "Calcular Total", formmethod: :get, formaction: new_pedido_path, 
+        style: "margin-top: 15px; background: var(--roxo-acai); color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;" %>
   </div>
 
   <div style="display: flex; gap: 20px; align-items: center;">
     <div style="flex: 1;">
       <%= f.label :discount_percent, "Desconto (%)" %>
-      <%= f.number_field :discount_percent, class: "form-control", data: { pedido_calc_target: "discount", action: "input->pedido-calc#recalculate" }, value: 0 %>
+      <%= f.number_field :discount_percent, class: "form-control", value: @pedido.discount_percent || 0 %>
     </div>
     <div style="flex: 1; text-align: right;">
       <span style="font-size: 1.1rem; color: #666;">Total Final:</span><br>
-      <strong style="font-size: 2.5rem; color: #2e7d32;">R$ <span data-pedido-calc-target="total">0,00</span></strong>
-      <%= f.hidden_field :total_price, data: { pedido_calc_target: "totalInput" } %>
+      <strong style="font-size: 2.5rem; color: #2e7d32;">
+        <%# 4. O Ruby escreve o valor calculado diretamente aqui %>
+        <%= number_to_currency(@pedido.total_price || 0) %>
+      </strong>
+      <%= f.hidden_field :total_price, value: @pedido.total_price %>
     </div>
   </div>
 
