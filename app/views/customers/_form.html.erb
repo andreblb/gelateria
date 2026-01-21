@@ -1,0 +1,28 @@
+<%= form_with(model: customer) do |f| %>
+  <h2 style="color: var(--roxo-acai); border-bottom: 2px solid #eee; padding-bottom: 10px;">👤 Cadastro de Cliente</h2>
+
+  <div class="form-group">
+    <%= f.label :name, "Nome Completo" %>
+    <%= f.text_field :name, class: "form-control", placeholder: "Ex: João Silva" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :phone, "Telefone / WhatsApp" %>
+    <%= f.text_field :phone, class: "form-control", placeholder: "(85) 99999-9999" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :email, "E-mail" %>
+    <%= f.email_field :email, class: "form-control", placeholder: "cliente@email.com" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :address, "Endereço Completo" %>
+    <%= f.text_area :address, class: "form-control", rows: 3, placeholder: "Rua, número, bairro e pontos de referência" %>
+  </div>
+
+  <div style="margin-top: 20px; display: flex; gap: 10px;">
+    <%= f.submit "Salvar Cliente", class: "btn-primary", style: "flex: 2;" %>
+    <%= link_to "Cancelar", customers_path, class: "btn-secondary", style: "flex: 1; text-align: center; padding: 15px; border-radius: 8px;" %>
+  </div>
+<% end %>

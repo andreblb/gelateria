@@ -1,0 +1,23 @@
+<%= form_with(model: product) do |f| %>
+  <h2 style="color: var(--roxo-acai); border-bottom: 2px solid #eee; padding-bottom: 10px;">🍦 Novo Sabor / Produto</h2>
+
+  <div class="form-group">
+    <%= f.label :name, "Nome do Sabor" %>
+    <%= f.text_field :name, class: "form-control", placeholder: "Ex: Açaí com Leite Ninho" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :description, "Descrição / Complementos" %>
+    <%= f.text_area :description, class: "form-control", rows: 3, placeholder: "O que vem nesse pote?" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :price, "Preço Unitário (R$)" %>
+    <%= f.number_field :price, step: 0.01, class: "form-control", placeholder: "0,00" %>
+  </div>
+
+  <div style="margin-top: 20px; display: flex; gap: 10px;">
+    <%= f.submit "Salvar Produto", class: "btn-primary", style: "flex: 2;" %>
+    <%= link_to "Voltar", products_path, class: "btn-secondary", style: "flex: 1; text-align: center; padding: 15px; border-radius: 8px;" %>
+  </div>
+<% end %>

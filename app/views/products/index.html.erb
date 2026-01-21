@@ -1,0 +1,27 @@
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <h2 style="color: var(--roxo-acai);">🍦 Sabores de Açaí</h2>
+  <%= link_to "Adicionar Sabor", new_product_path, class: "btn btn-primary", style: "width: auto;" %>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sabor</th>
+      <th>Preço</th>
+      <th>Descrição</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @products.each do |product| %>
+      <tr>
+        <td><strong><%= product.name %></strong></td>
+        <td><%= number_to_currency(product.price) %></td>
+        <td><%= truncate(product.description, length: 50) %></td>
+        <td>
+          <%= link_to "Editar", edit_product_path(product), class: "btn-small btn-edit" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

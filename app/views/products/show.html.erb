@@ -1,0 +1,25 @@
+<div style="border-left: 10px solid #F9A825; padding: 20px; background: #fff; border-radius: 8px;">
+  <h2 style="color: #F9A825; margin-top: 0;">🍦 Detalhes do Sabor</h2>
+  <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+  <div style="display: flex; gap: 40px; align-items: flex-start;">
+    <div style="flex: 2;">
+      <h1 style="margin: 0; font-size: 2rem; color: #333;"><%= @product.name %></h1>
+      <p style="color: #666; font-size: 1.1rem; margin-top: 10px;">
+        <%= @product.description.present? ? @product.description : "Sem descrição disponível." %>
+      </p>
+    </div>
+    
+    <div style="flex: 1; background: #fff9e6; padding: 20px; border-radius: 12px; text-align: center; border: 1px solid #ffeeba;">
+      <span style="font-size: 1rem; color: #856404;">Preço de Venda</span>
+      <h2 style="font-size: 2.5rem; color: #d39e00; margin: 5px 0;">
+        <%= number_to_currency(@product.price) %>
+      </h2>
+    </div>
+  </div>
+
+  <div style="margin-top: 40px; display: flex; gap: 10px;">
+    <%= link_to "Editar Sabor", edit_product_path(@product), class: "btn-small btn-edit", style: "padding: 10px 20px; text-decoration: none;" %>
+    <%= link_to "Ver Todos Sabores", products_path, class: "btn-small btn-show", style: "padding: 10px 20px; text-decoration: none; background: #666;" %>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <h2 style="color: var(--roxo-acai);">👥 Clientes Cadastrados</h2>
+  <%= link_to "Novo Cliente", new_customer_path, class: "btn btn-primary", style: "width: auto;" %>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Telefone</th>
+      <th>E-mail</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @customers.each do |customer| %>
+      <tr>
+        <td><%= customer.name %></td>
+        <td><%= customer.phone %></td>
+        <td><%= customer.email %></td>
+        <td>
+          <%= link_to "Ver", customer, class: "btn-small btn-show" %>
+          <%= link_to "Editar", edit_customer_path(customer), class: "btn-small btn-edit" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

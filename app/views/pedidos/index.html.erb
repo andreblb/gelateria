@@ -1,0 +1,39 @@
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <h2 style="color: var(--roxo-acai);">🛒 Pedidos Recentes</h2>
+  <%= link_to "Novo Pedido", new_pedido_path, class: "btn btn-primary", style: "width: auto;" %>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Cliente</th>
+      <th>Total</th>
+      <th>Status</th>
+      <th>Data</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @pedidos.each do |pedido| %>
+      <tr>
+        <td>#<%= pedido.id %></td>
+        <td><%= pedido.customer.name %></td>
+        <td><strong><%= number_to_currency(pedido.total_price) %></strong></td>
+        <td>
+          <% color = case pedido.status 
+             when "Pendente" then "#e67e22" 
+             when "Entregue" then "#27ae60" 
+             else "#2980b9" end %>
+          <span style="background: <%= color %>; color: white; padding: 4px 8px; border-radius: 20px; font-size: 0.8rem;">
+            <%= pedido.status %>
+          </span>
+        </td>
+        <td><%= pedido.created_at.strftime("%d/%m/%y %H:%M") %></td>
+        <td>
+          <%= link_to "Ver Detalhes", pedido, class: "btn-small btn-show" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,72 @@
+<div class="dashboard-container">
+  <header>
+    <h1>Gelateria & Açaiteria Controle</h1>
+    <p>Bem-vindo! O que deseja fazer hoje?</p>
+  </header>
+
+  <div class="menu-grid">
+    <%# Botão Pedidos %>
+    <%= link_to pedidos_path, class: "menu-card purple" do %>
+      <div class="icon">🛒</div>
+      <h2>Pedidos</h2>
+      <p>Lançar novas vendas e entregas</p>
+    <% end %>
+
+    <%# Botão Clientes %>
+    <%= link_to customers_path, class: "menu-card cyan" do %>
+      <div class="icon">👤</div>
+      <h2>Clientes</h2>
+      <p>Gerenciar cadastros e endereços</p>
+    <% end %>
+
+    <%# Botão Produtos %>
+    <%= link_to products_path, class: "menu-card gold" do %>
+      <div class="icon">🍦</div>
+      <h2>Sabores</h2>
+      <p>Açaís, complementos e preços</p>
+    <% end %>
+  </div>
+</div>
+
+<style>
+  .dashboard-container {
+    text-align: center;
+    padding: 40px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  header h1 { color: #4A148C; font-size: 2.5rem; margin-bottom: 10px; }
+  header p { color: #666; margin-bottom: 40px; }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .menu-card {
+    text-decoration: none;
+    padding: 30px;
+    border-radius: 15px;
+    color: white;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: block;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+
+  .menu-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+  }
+
+  .menu-card .icon { font-size: 3rem; margin-bottom: 15px; }
+  .menu-card h2 { margin: 10px 0; font-size: 1.5rem; }
+  .menu-card p { font-size: 0.9rem; opacity: 0.9; }
+
+  /* Cores Temáticas */
+  .purple { background: linear-gradient(135deg, #6A1B9A, #4A148C); }
+  .cyan { background: linear-gradient(135deg, #00ACC1, #00838F); }
+  .gold { background: linear-gradient(135deg, #FBC02D, #F9A825); }
+</style>

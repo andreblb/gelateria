@@ -1,0 +1,25 @@
+<div style="border-left: 10px solid var(--roxo-acai); padding: 20px; background: #fff; border-radius: 8px;">
+  <h2 style="color: var(--roxo-acai); margin-top: 0;">👤 Detalhes do Cliente</h2>
+  <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+    <div>
+      <p><strong>Nome:</strong><br><%= @customer.name %></p>
+      <p><strong>Telefone:</strong><br><%= @customer.phone %></p>
+    </div>
+    <div>
+      <p><strong>E-mail:</strong><br><%= @customer.email.present? ? @customer.email : "Não informado" %></p>
+      <p><strong>Cadastrado em:</strong><br><%= @customer.created_at.strftime("%d/%m/%Y") %></p>
+    </div>
+  </div>
+
+  <div style="margin-top: 20px; background: #f8f9fa; padding: 15px; border-radius: 8px;">
+    <p><strong>📍 Endereço de Entrega:</strong></p>
+    <p><%= @customer.address %></p>
+  </div>
+
+  <div style="margin-top: 30px; display: flex; gap: 10px;">
+    <%= link_to "Editar Cadastro", edit_customer_path(@customer), class: "btn-small btn-edit", style: "padding: 10px 20px; text-decoration: none;" %>
+    <%= link_to "Voltar para Lista", customers_path, class: "btn-small btn-show", style: "padding: 10px 20px; text-decoration: none; background: #666;" %>
+  </div>
+</div>

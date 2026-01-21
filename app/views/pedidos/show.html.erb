@@ -1,0 +1,37 @@
+<div style="border: 2px dashed #ccc; padding: 20px; background: #fff;">
+  <h2 style="text-align: center; color: var(--roxo-acai);">RECIBO DE PEDIDO #<%= @pedido.id %></h2>
+  <hr>
+  
+  <p><strong>Cliente:</strong> <%= @pedido.customer.name %></p>
+  <p><strong>Endereço:</strong> <%= @pedido.delivery_address %></p>
+  <p><strong>Telefone:</strong> <%= @pedido.customer.phone %></p>
+  
+  <hr>
+  <h3>Itens Escolhidos:</h3>
+  <ul style="list-style: none; padding: 0;">
+    <% @pedido.pedido_items.each do |item| %>
+      <li style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+        <span><%= item.quantity %>x <%= item.product.name %></span>
+        <span><%= number_to_currency(item.product.price) %></span>
+      </li>
+    <% end %>
+  </ul>
+  
+  <hr>
+  <div style="text-align: right;">
+    <p>Desconto Aplicado: <%= @pedido.discount_percent %>%</p>
+    <h2 style="color: #2e7d32;">Total Final: <%= number_to_currency(@pedido.total_price) %></h2>
+  </div>
+
+  <div style="margin-top: 30px; display: flex; gap: 10px;" class="no-print">
+    <%= link_to "Voltar", pedidos_path, class: "btn-secondary", style: "padding: 10px; border-radius: 5px; text-decoration: none;" %>
+    <button onclick="window.print();" class="btn btn-primary" style="width: auto; cursor: pointer;">🖨️ Imprimir Pedido</button>
+  </div>
+</div>
+
+<style>
+  @media print {
+    .navbar, .no-print { display: none !important; }
+    .main-container { box-shadow: none; border: none; margin: 0; }
+  }
+</style>

@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  customer: one
+  total_price: 9.99
+  discount_percent: 9.99
+  status: MyString
+  delivery_address: MyString
+
+two:
+  customer: two
+  total_price: 9.99
+  discount_percent: 9.99
+  status: MyString
+  delivery_address: MyString

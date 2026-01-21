@@ -1,0 +1,42 @@
+<%= form_with(model: pedido, data: { controller: "pedido-calc" }) do |f| %>
+  <h2 style="color: var(--roxo-acai);">📝 Novo Pedido de Açaí</h2>
+  
+  <div style="margin-bottom: 20px;">
+    <%= f.label :customer_id, "Cliente" %>
+    <%= f.collection_select :customer_id, Customer.all, :id, :name, { prompt: "Selecione o cliente" }, { class: "form-control" } %>
+  </div>
+
+  <div style="margin-bottom: 20px;">
+    <%= f.label :delivery_address, "Endereço de Entrega" %>
+    <%= f.text_field :delivery_address, class: "form-control", placeholder: "Rua, número e bairro" %>
+  </div>
+
+  <div style="background: #f9f0ff; padding: 20px; border-radius: 10px; border-left: 5px solid var(--roxo-acai); margin-bottom: 20px;">
+    <h3>🍓 Escolha os Sabores</h3>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+      <% Product.all.each do |product| %>
+        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; background: white; padding: 10px; border-radius: 5px;">
+          <%= check_box_tag "pedido[pedido_items_attributes][][product_id]", product.id, false, 
+              data: { price: product.price, action: "change->pedido-calc#recalculate" }, class: "sabor-check" %>
+          <span><%= product.name %> - <strong><%= number_to_currency(product.price) %></strong></span>
+        </label>
+      <% end %>
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 20px; align-items: center;">
+    <div style="flex: 1;">
+      <%= f.label :discount_percent, "Desconto (%)" %>
+      <%= f.number_field :discount_percent, class: "form-control", data: { pedido_calc_target: "discount", action: "input->pedido-calc#recalculate" }, value: 0 %>
+    </div>
+    <div style="flex: 1; text-align: right;">
+      <span style="font-size: 1.1rem; color: #666;">Total Final:</span><br>
+      <strong style="font-size: 2.5rem; color: #2e7d32;">R$ <span data-pedido-calc-target="total">0,00</span></strong>
+      <%= f.hidden_field :total_price, data: { pedido_calc_target: "totalInput" } %>
+    </div>
+  </div>
+
+  <div style="margin-top: 30px;">
+    <%= f.submit "Salvar e Finalizar Pedido", class: "btn-primary" %>
+  </div>
+<% end %>
