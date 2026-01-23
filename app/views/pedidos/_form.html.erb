@@ -1,4 +1,3 @@
-<%# 1. Trocamos 'pedido' por '@pedido' e removemos o data-controller do JS %>
 <%= form_with(model: @pedido, id: "pedido-form") do |f| %>
   <h2 style="color: var(--roxo-acai);">📝 Novo Pedido de Açaí</h2>
   
@@ -13,18 +12,25 @@
   </div>
 
   <div style="background: #f9f0ff; padding: 20px; border-radius: 10px; border-left: 5px solid var(--roxo-acai); margin-bottom: 20px;">
-    <h3>🍓 Escolha os Sabores</h3>
+    <h3>🍓 Escolha os Sabores e Quantidades</h3>
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-      <% Product.all.each do |product| %>
-        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; background: white; padding: 10px; border-radius: 5px;">
-          <%# 2. Mantemos os itens marcados após o clique em calcular %>
-          <%= check_box_tag "pedido[pedido_items_attributes][][product_id]", product.id, @pedido.product_ids.include?(product.id), class: "sabor-check" %>
+      <% Product.all.each_with_index do |product, index| %>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; background: white; padding: 10px; border-radius: 5px;">
           <span><%= product.name %> - <strong><%= number_to_currency(product.price) %></strong></span>
-        </label>
+          
+          <div style="display: flex; align-items: center; gap: 5px;">
+            <%# Campo de Quantidade que o Ruby vai ler %>
+            <%= number_field_tag "pedido[pedido_items_attributes][#{index}][quantity]", 
+                @pedido.pedido_items.find { |i| i.product_id == product.id }&.quantity || 0, 
+                min: 0, style: "width: 50px; border: 1px solid #ccc; border-radius: 4px; text-align: center;" %>
+            
+            <%= hidden_field_tag "pedido[pedido_items_attributes][#{index}][product_id]", product.id %>
+          </div>
+        </div>
       <% end %>
     </div>
-
-    <%# 3. Botão para o Ruby calcular sem salvar o pedido ainda %>
+    
+    <%# Botão Calcular mantendo sua identidade visual %>
     <%= f.submit "Calcular Total", formmethod: :get, formaction: new_pedido_path, 
         style: "margin-top: 15px; background: var(--roxo-acai); color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;" %>
   </div>
@@ -36,11 +42,13 @@
     </div>
     <div style="flex: 1; text-align: right;">
       <span style="font-size: 1.1rem; color: #666;">Total Final:</span><br>
-      <strong style="font-size: 2.5rem; color: #2e7d32;">
-        <%# 4. O Ruby escreve o valor calculado diretamente aqui %>
-        <%= number_to_currency(@pedido.total_price || 0) %>
-      </strong>
-      <%= f.hidden_field :total_price, value: @pedido.total_price %>
+      
+      <%= turbo_frame_tag "total_display" do %>
+        <strong style="font-size: 2.5rem; color: #2e7d32;">
+          <%= number_to_currency(@pedido.total_price || 0) %>
+        </strong>
+        <%= f.hidden_field :total_price, value: @pedido.total_price %>
+      <% end %>
     </div>
   </div>
 
